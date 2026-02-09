@@ -11,30 +11,24 @@ console = Console()
 
 
 @click.command()
-@click.argument('symbols', nargs=-1)
+@click.argument("symbols", nargs=-1)
+@click.option("--sheet-id", required=True, help="Google Sheets ID")
 @click.option(
-    '--sheet-id',
-    required=True,
-    help='Google Sheets ID'
-)
-@click.option(
-    '--output',
-    type=click.Path(),
-    help='Save output to file (otherwise print to terminal)'
+    "--output", type=click.Path(), help="Save output to file (otherwise print to terminal)"
 )
 def track(symbols, sheet_id, output):
     """Track portfolio holdings (pull from Sheets, fetch realtime data)."""
     try:
         # Stub implementation - will be integrated with Google Sheets API later
         console.print(f"[dim]Tracking portfolio from sheet: {sheet_id}[/dim]")
-        
+
         # Create mock data table
         table = Table(title="Portfolio Holdings", show_header=True, header_style="bold magenta")
         table.add_column("Symbol", style="cyan")
         table.add_column("Shares", justify="right", style="green")
         table.add_column("Price", justify="right", style="yellow")
         table.add_column("Value", justify="right", style="bold green")
-        
+
         # Mock data
         if symbols:
             for symbol in symbols:
@@ -44,14 +38,14 @@ def track(symbols, sheet_id, output):
             table.add_row("AAPL", "100", "$150.00", "$15,000.00")
             table.add_row("GOOGL", "50", "$140.00", "$7,000.00")
             table.add_row("MSFT", "75", "$370.00", "$27,750.00")
-        
+
         if output:
             # Save to file (stub)
             console.print(f"[yellow]Saving to file: {output} (not yet implemented)[/yellow]")
-        
+
         console.print(table)
         console.print("\n[dim]Note: This is mock data. Real integration coming in Week 2.[/dim]")
-        
+
     except Exception as e:
         console.print(f"[red]Error tracking portfolio: {e}[/red]")
         raise click.Abort()

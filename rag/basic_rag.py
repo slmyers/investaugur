@@ -5,19 +5,19 @@ Local Retrieval-Augmented Generation using LlamaIndex.
 This is a stub implementation for Week 1. Full integration in Week 2.
 """
 from pathlib import Path
-from typing import List, Optional
+from typing import List
 
 
 def load_docs(dir_path: str) -> List:
     """
     Load documents from a directory.
-    
+
     Args:
         dir_path: Path to directory containing PDF documents
-        
+
     Returns:
         List of loaded documents
-        
+
     Note: This is a stub. Full implementation will use LlamaIndex SimpleDirectoryReader.
     """
     # Stub: Return empty list for now
@@ -30,14 +30,14 @@ def load_docs(dir_path: str) -> List:
 def build_index(docs: List, persist_dir: str = "./local_rag_db"):
     """
     Build vector index from documents and persist to disk.
-    
+
     Args:
         docs: List of documents to index
         persist_dir: Directory to persist the index
-        
+
     Returns:
         Index object
-        
+
     Note: This is a stub. Full implementation will use LlamaIndex with Chroma.
     """
     # Stub: Create persist directory if needed
@@ -48,15 +48,15 @@ def build_index(docs: List, persist_dir: str = "./local_rag_db"):
 def query_rag(index, query: str, top_k: int = 5) -> str:
     """
     Query the RAG index and return response.
-    
+
     Args:
         index: Vector store index
         query: Query string
         top_k: Number of top results to retrieve
-        
+
     Returns:
         Generated response with retrieved context
-        
+
     Note: This is a stub. Full implementation will use LlamaIndex query engine.
     """
     # Stub: Return mock response
