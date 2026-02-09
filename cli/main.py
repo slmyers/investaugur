@@ -51,7 +51,7 @@ def cli(ctx, verbose, local_only, config):
 
 
 def register_commands():
-    """Register CLI commands - called after cli definition to avoid circular imports."""
+    """Register CLI commands after cli definition."""
     from cli.commands import init, track, analyze, rag_query, chat
 
     cli.add_command(init.init_cmd)
