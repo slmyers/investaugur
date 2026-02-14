@@ -8,13 +8,11 @@ from rich.console import Console
 from rich.prompt import Prompt
 from rich.panel import Panel
 
-console = Console()
 
-
-@click.command()
-@click.option("--session-id", help="Optional session identifier for conversation history")
-def chat(session_id):
+def chat_impl(session_id):
     """Enter interactive chatbot mode."""
+    console = Console(file=click.get_text_stream("stdout"))
+
     try:
         console.print(
             Panel(
@@ -51,7 +49,7 @@ def chat(session_id):
                 )
                 console.print(mock_response)
 
-            except KeyboardInterrupt:
+            except (KeyboardInterrupt, EOFError):
                 console.print("\n[yellow]Chat interrupted. Goodbye![/yellow]")
                 break
 

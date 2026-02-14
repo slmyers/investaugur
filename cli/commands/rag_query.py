@@ -7,21 +7,13 @@ import click
 from rich.console import Console
 from rich.panel import Panel
 
-console = Console()
 
-
-@click.command(name="rag-query")
-@click.argument("query")
-@click.option(
-    "--dir",
-    default="./research_docs",
-    type=click.Path(exists=True),
-    help="Path to research documents directory",
-)
-def rag_query(query, dir):
+def rag_query_impl(query, docs_dir):
     """Direct query to local RAG (for testing/research)."""
+    console = Console(file=click.get_text_stream("stdout"))
+
     try:
-        console.print(f"[dim]Querying RAG from directory: {dir}[/dim]")
+        console.print(f"[dim]Querying RAG from directory: {docs_dir}[/dim]")
         console.print(f"[dim]Query: {query}[/dim]\n")
 
         # Stub implementation - will integrate with basic_rag.py

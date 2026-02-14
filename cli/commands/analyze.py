@@ -7,15 +7,11 @@ import click
 from rich.console import Console
 from rich.panel import Panel
 
-console = Console()
 
-
-@click.command()
-@click.option("--query", required=True, help='Analysis query (e.g., "outlook for AAPL")')
-@click.option("--symbol", help="Specific stock symbol")
-@click.option("--pdf", is_flag=True, help="Generate PDF report")
-def analyze(query, symbol, pdf):
+def analyze_impl(query, symbol, pdf):
     """Perform AI-augmented analysis (with RAG context)."""
+    console = Console(file=click.get_text_stream("stdout"))
+
     try:
         console.print(f"[dim]Analyzing query: {query}[/dim]")
         if symbol:

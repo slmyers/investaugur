@@ -58,6 +58,24 @@ def test_rag_query_command(runner):
         assert "RAG Retrieval Results" in result.output
 
 
+def test_chat_command(runner):
+    """Test the chat command with exit input."""
+    result = runner.invoke(cli, ["chat"], input="exit\n")
+    assert result.exit_code == 0
+    assert "InvestAugur Interactive Chat" in result.output
+    assert "Ending chat session" in result.output
+
+
+def test_chat_command_eof(runner):
+    """Test the chat command handles EOF gracefully."""
+    # Simulate EOF (Ctrl-D) by closing input stream
+    result = runner.invoke(cli, ["chat"], input="")
+    assert result.exit_code == 0
+    assert "InvestAugur Interactive Chat" in result.output
+    # Should handle EOF gracefully
+    assert "interrupted" in result.output.lower() or "goodbye" in result.output.lower()
+
+
 def test_verbose_flag(runner):
     """Test the verbose flag."""
     with runner.isolated_filesystem():

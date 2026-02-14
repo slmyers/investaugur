@@ -7,28 +7,26 @@ import click
 from rich.console import Console
 from pathlib import Path
 
-console = Console()
 
-
-@click.command(name="init")
-@click.option("--force", is_flag=True, help="Overwrite existing configs/directories")
-def init_cmd(force):
+def init_impl(force):
     """Initialize the app (create local directories, check dependencies)."""
+    console = Console(file=click.get_text_stream("stdout"))
+
     try:
         # Create local RAG database directory
         rag_db_path = Path("./local_rag_db")
         if rag_db_path.exists() and not force:
             console.print(
-                f"[yellow]Directory {rag_db_path} already exists. Use --force to overwrite.[/yellow]"
+                f"[yellow]Directory {rag_db_path} already exists. Use --force to recreate.[/yellow]"
             )
         else:
-            rag_db_path.mkdir(exist_ok=True)
+            rag_db_path.mkdir(parents=True, exist_ok=True)
             console.print(f"[green]✓[/green] Created directory: {rag_db_path}")
 
         # Create research docs directory
         research_path = Path("./research_docs")
         if not research_path.exists():
-            research_path.mkdir(exist_ok=True)
+            research_path.mkdir(parents=True, exist_ok=True)
             console.print(f"[green]✓[/green] Created directory: {research_path}")
 
         console.print("[bold green]Initialized successfully![/bold green]")

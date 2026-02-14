@@ -25,6 +25,7 @@ This document specifies the initial CLI skeleton for InvestAugur, focusing on th
 - Use Click's group pattern:
   ```python
   import click
+  from pathlib import Path
   from dotenv import load_dotenv
 
   @click.group()
@@ -101,7 +102,7 @@ Implement as subcommands with stubs for functionality. Each in its own module (e
 ### Input/Output Handling
 - **Input**: Support stdin for batch mode (e.g., pipe queries).
 - **Output**: Use rich for colors/tables; plain text fallback.
-- **Errors**: Custom exceptions (e.g., MissingEnvError); Typer handles help/exits.
+- **Errors**: Custom exceptions (e.g., MissingEnvError); Click handles help/exits.
 - **Logging**: Use logging module; verbose mode logs to console.
 
 ## Implementation Notes

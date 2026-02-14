@@ -138,7 +138,7 @@ This is a portfolio project. Contributions are welcome! Please see the specs in 
 
 ## License
 
-MIT License - See LICENSE file for details.
+This project is licensed under the MIT License.
 
 ## Documentation
 

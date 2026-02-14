@@ -5,10 +5,10 @@ Local Retrieval-Augmented Generation using LlamaIndex.
 This is a stub implementation for Week 1. Full integration in Week 2.
 """
 from pathlib import Path
-from typing import List
+from typing import Any
 
 
-def load_docs(dir_path: str) -> List:
+def load_docs(dir_path: str) -> list[Any]:
     """
     Load documents from a directory.
 
@@ -27,7 +27,7 @@ def load_docs(dir_path: str) -> List:
     return []
 
 
-def build_index(docs: List, persist_dir: str = "./local_rag_db"):
+def build_index(docs: list[Any], persist_dir: str = "./local_rag_db") -> Any:
     """
     Build vector index from documents and persist to disk.
 
@@ -41,11 +41,11 @@ def build_index(docs: List, persist_dir: str = "./local_rag_db"):
     Note: This is a stub. Full implementation will use LlamaIndex with Chroma.
     """
     # Stub: Create persist directory if needed
-    Path(persist_dir).mkdir(exist_ok=True)
+    Path(persist_dir).mkdir(parents=True, exist_ok=True)
     return None
 
 
-def query_rag(index, query: str, top_k: int = 5) -> str:
+def query_rag(index: Any, query: str, top_k: int = 5) -> str:
     """
     Query the RAG index and return response.
 

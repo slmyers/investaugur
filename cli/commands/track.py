@@ -7,17 +7,11 @@ import click
 from rich.console import Console
 from rich.table import Table
 
-console = Console()
 
-
-@click.command()
-@click.argument("symbols", nargs=-1)
-@click.option("--sheet-id", required=True, help="Google Sheets ID")
-@click.option(
-    "--output", type=click.Path(), help="Save output to file (otherwise print to terminal)"
-)
-def track(symbols, sheet_id, output):
+def track_impl(symbols, sheet_id, output):
     """Track portfolio holdings (pull from Sheets, fetch realtime data)."""
+    console = Console(file=click.get_text_stream("stdout"))
+
     try:
         # Stub implementation - will be integrated with Google Sheets API later
         console.print(f"[dim]Tracking portfolio from sheet: {sheet_id}[/dim]")
@@ -41,7 +35,7 @@ def track(symbols, sheet_id, output):
 
         if output:
             # Save to file (stub)
-            console.print(f"[yellow]Saving to file: {output} (not yet implemented)[/yellow]")
+            console.print(f"[yellow]Saving to file: {output} (stub - not yet implemented)[/yellow]")
 
         console.print(table)
         console.print("\n[dim]Note: This is mock data. Real integration coming in Week 2.[/dim]")
