@@ -11,9 +11,9 @@ This document specifies the initial CLI skeleton for InvestAugur, focusing on th
 - This spec builds toward the prototype phase; full features will be added in later weeks.
 
 ### Requirements
-- **Framework**: Use Typer (preferred over Click for its modern, type-hinted approach and automatic help/docs generation). It supports subcommands, options, arguments, and rich output.
+- **Framework**: Use Click (Python CLI framework with command decorators and styled output support via rich).
 - **Python Version**: 3.10+ (for type hints and compatibility with project deps like LlamaIndex/LangChain).
-- **Dependencies**: Minimal—typer, rich (for formatted output), python-dotenv (for .env loading).
+- **Dependencies**: Minimal—click, rich (for formatted output), python-dotenv (for .env loading).
 - **Installation**: The CLI should be installable via `pip install -e .` (editable mode for dev) and runnable as `investaugur` after setup.
 - **Performance**: Keep overhead low (<100ms startup); no heavy imports in the main module.
 - **Error Handling**: Graceful exits with user-friendly messages; log to stderr for devs.
@@ -22,32 +22,33 @@ This document specifies the initial CLI skeleton for InvestAugur, focusing on th
 ## CLI Structure
 ### Entry Point
 - Main file: `cli/main.py`.
-- Use Typer's app pattern:
+- Use Click's group pattern:
   ```python
-  import typer
+  import click
+  from pathlib import Path
   from dotenv import load_dotenv
 
-  app = typer.Typer(
-      name="investaugur",
-      help="AI-augmented finance CLI for portfolio tracking and insights.",
-      add_completion=False  # Disable shell completion for simplicity
-  )
-
-  # Load .env at startup
-  load_dotenv()
-
-  # Add subcommands here (imported from modules)
+  @click.group()
+  @click.option('--verbose', '-v', is_flag=True, help='Enable detailed logging')
+  @click.option('--local-only', is_flag=True, help='Force local mode')
+  @click.option('--config', type=click.Path(), default='.env', help='Path to config file')
+  @click.pass_context
+  def cli(ctx, verbose, local_only, config):
+      """AI-augmented finance CLI for portfolio tracking and insights."""
+      # Load .env at startup
+      if Path(config).exists():
+          load_dotenv(config)
 
   if __name__ == "__main__":
-      app()
+      cli()
   ```
 - Packaging: Use `pyproject.toml` with Poetry for deps; entry point in `scripts` section to make `investaugur` executable.
 
 ### Global Options/Flags
 - `--verbose / -v`: Enable detailed logging (default: False).
 - `--local-only`: Force local mode (use Ollama instead of Vertex AI; default: False).
-- `--config FILE`: Path to custom config (overrides .env; default: None).
-- These apply to all commands via Typer's context.
+- `--config FILE`: Path to custom config file (default: .env).
+- These apply to all commands via Click's context.
 
 ### Commands
 Implement as subcommands with stubs for functionality. Each in its own module (e.g., `cli/commands/analyze.py`) and added to the main app.
@@ -101,13 +102,13 @@ Implement as subcommands with stubs for functionality. Each in its own module (e
 ### Input/Output Handling
 - **Input**: Support stdin for batch mode (e.g., pipe queries).
 - **Output**: Use rich for colors/tables; plain text fallback.
-- **Errors**: Custom exceptions (e.g., MissingEnvError); Typer handles help/exits.
+- **Errors**: Custom exceptions (e.g., MissingEnvError); Click handles help/exits.
 - **Logging**: Use logging module; verbose mode logs to console.
 
 ## Implementation Notes
-- **Modularity**: Each command in `/cli/commands/<cmd>.py` with a function decorated by `@app.command()`.
-- **Stubs**: Use placeholders like `raise NotImplementedError("Coming in Week 2")` for unimplemented parts.
-- **Testing**: Include basic pytest fixtures in `/tests/test_cli.py` (e.g., invoke via typer.testing.CliRunner).
+- **Modularity**: Each command in `/cli/commands/<cmd>.py` with a function decorated by `@click.command()`.
+- **Stubs**: Use placeholders with mock data for unimplemented parts (Week 1 focus is on structure).
+- **Testing**: Include basic pytest fixtures in `/tests/test_cli.py` (e.g., invoke via click.testing.CliRunner).
 - **GitHub Integration**: Commit this spec; reference in README setup instructions.
 
 ## Next Steps
